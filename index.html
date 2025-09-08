@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор промтов для Veo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        .form-select, .form-textarea, .form-input {
+            background-color: #1F2937; /* bg-gray-800 */
+            border-color: #4B5563; /* border-gray-600 */
+            color: #F9FAFB; /* text-gray-50 */
+        }
+        .form-select:focus, .form-textarea:focus, .form-input:focus {
+            outline: none;
+            border-color: #3B82F6; /* border-blue-500 */
+            box-shadow: 0 0 0 2px #1e40af;
+        }
+        .prompt-output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #000000;
+            border: 1px solid #4B5563;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            color: #d1d5db;
+            font-family: monospace;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body class="text-gray-200 p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Заголовок -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-white">Конструктор промтов для Veo</h1>
+            <p class="mt-2 text-lg text-gray-400">Создайте идеальный промт в формате JSON для генерации видео</p>
+        </div>
+
+        <!-- Основной контейнер: форма и результат -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Левая колонка: Форма для ввода данных -->
+            <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
+                <form id="prompt-form" class="space-y-6">
+                    
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-300 mb-2">1. Основной сюжет (Description)</label>
+                        <textarea id="description" rows="5" class="w-full form-textarea rounded-lg" placeholder="Например: Кот в очках читает книгу, сидя в уютном кресле у камина. За окном идет дождь."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="style" class="block text-sm font-medium text-gray-300 mb-2">2. Стиль (Style)</label>
+                            <select id="style" class="w-full form-select rounded-lg">
+                                <option>Cinematic</option>
+                                <option>Anime</option>
+                                <option>Documentary</option>
+                                <option>Vintage Film</option>
+                                <option>3D Animation</option>
+                                <option>Surrealism</option>
+                                <option>Noir</option>
+                                <option>Cyberpunk</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="shot-type" class="block text-sm font-medium text-gray-300 mb-2">3. Композиция кадра (Shot)</label>
+                            <select id="shot-type" class="w-full form-select rounded-lg">
+                                <option>Wide Shot</option>
+                                <option>Close-up</option>
+                                <option>Medium Shot</option>
+                                <option>Extreme Close-up</option>
+                                <option>Aerial Shot</option>
+                                <option>Point of View (POV)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="lighting" class="block text-sm font-medium text-gray-300 mb-2">4. Освещение (Lighting)</label>
+                            <select id="lighting" class="w-full form-select rounded-lg">
+                                <option>Golden Hour</option>
+                                <option>Neon</option>
+                                <option>Studio Lighting</option>
+                                <option>Rembrandt Lighting</option>
+                                <option>Overcast</option>
+                                <option>Dramatic Shadows</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="camera-movement" class="block text-sm font-medium text-gray-300 mb-2">5. Движение камеры</label>
+                            <select id="camera-movement" class="w-full form-select rounded-lg">
+                                <option>Static</option>
+                                <option>Pan</option>
+                                <option>Tilt</option>
+                                <option>Dolly Zoom</option>
+                                <option>Handheld</option>
+                                <option>Slow push-in</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="color-palette" class="block text-sm font-medium text-gray-300 mb-2">6. Цветовая палитра</label>
+                            <select id="color-palette" class="w-full form-select rounded-lg">
+                                <option>Vibrant</option>
+                                <option>Muted</option>
+                                <option>Pastel</option>
+                                <option>Monochrome</option>
+                                <option>Warm Tones</option>
+                                <option>Cool Tones</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="mood" class="block text-sm font-medium text-gray-300 mb-2">7. Настроение/Тон</label>
+                            <select id="mood" class="w-full form-select rounded-lg">
+                                <option>Dramatic</option>
+                                <option>Comedic</option>
+                                <option>Mysterious</option>
+                                <option>Calm</option>
+                                <option>Epic</option>
+                                <option>Nostalgic</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="audio" class="block text-sm font-medium text-gray-300 mb-2">8. Аудио и Звуковые эффекты</label>
+                        <textarea id="audio" rows="3" class="w-full form-textarea rounded-lg" placeholder="Например: sound of a crackling fire, rain against the window, melancholic piano music, no dialogue"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="negative-prompt" class="block text-sm font-medium text-gray-300 mb-2">9. Негативный промт (что исключить)</label>
+                        <input id="negative-prompt" type="text" class="w-full form-input rounded-lg" placeholder="Например: blurry, low quality, text, watermark">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Правая колонка: Результат -->
+            <div class="sticky top-8 self-start">
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
+                    <h2 class="text-xl font-semibold text-white mb-4">Готовый промт (JSON):</h2>
+                    <div id="prompt-output" class="prompt-output">Начните заполнять поля слева...</div>
+                    <button id="copy-button" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                        Копировать промт
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('prompt-form');
+            const outputElement = document.getElementById('prompt-output');
+            const copyButton = document.getElementById('copy-button');
+
+            const generatePrompt = () => {
+                const description = document.getElementById('description').value.trim();
+                
+                if (!description) {
+                    outputElement.textContent = 'Начните заполнять поля слева...';
+                    return;
+                }
+
+                const promptObject = {
+                    description: description,
+                    style: document.getElementById('style').value,
+                    shot: document.getElementById('shot-type').value,
+                    visuals: {
+                        lighting: document.getElementById('lighting').value,
+                        color_palette: document.getElementById('color-palette').value,
+                        tone: document.getElementById('mood').value
+                    },
+                    camera: {
+                        movement: document.getElementById('camera-movement').value
+                    }
+                };
+                
+                const audio = document.getElementById('audio').value.trim();
+                if (audio) {
+                    promptObject.audio = audio;
+                }
+
+                const negativePrompt = document.getElementById('negative-prompt').value.trim();
+                if (negativePrompt) {
+                    promptObject.negative_prompt = negativePrompt;
+                }
+
+                outputElement.textContent = JSON.stringify(promptObject, null, 2);
+            };
+
+            // Обновляем промт при любом изменении в форме
+            form.addEventListener('input', generatePrompt);
+            
+            // Копирование в буфер обмена
+            copyButton.addEventListener('click', () => {
+                const textToCopy = outputElement.textContent;
+                
+                if(textToCopy === 'Начните заполнять поля слева...') return;
+
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = textToCopy;
+                document.body.appendChild(tempTextarea);
+                tempTextarea.select();
+                try {
+                    document.execCommand('copy');
+                    copyButton.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                        Скопировано!`;
+                    setTimeout(() => {
+                         copyButton.innerHTML = `
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                         Копировать промт`;
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+                document.body.removeChild(tempTextarea);
+            });
+
+            // Генерируем промт при первой загрузке (если в полях есть значения)
+            generatePrompt();
+        });
+    </script>
+</body>
+</html>
+
